@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/Button";
 import FormInput from "../form-input/FormInput";
 import { ButtonsContainer, SignInContainer } from "./StyledSignInForm";
@@ -6,6 +6,7 @@ import {
   signInAuthUserWithEmailAndPassword,
   signInWithGooglePopup,
 } from "../../utils/firebase";
+import { UserContext } from "../../context/UserContext";
 
 interface FormFields {
   email: string;
@@ -20,6 +21,7 @@ const defaultFormFields: FormFields = {
 export default function SignInForm() {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
+  const { setCurrentUser } = useContext(UserContext);
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -27,13 +29,24 @@ export default function SignInForm() {
 
   const signInWithGoogle = async () => {
     await signInWithGooglePopup();
+    //console.log(res);
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
-      await signInAuthUserWithEmailAndPassword(email, password);
+      const response = await signInAuthUserWithEmailAndPassword(
+        email,
+        password
+      );
+
+      if (response && response.user) {
+        const { uid, email, displayName } = response.user;
+        const userForContext = { uid, email, displayName };
+        setCurrentUser(userForContext);
+      }
+
       resetFormFields();
     } catch (error) {
       console.log("user sign in failed", error);
@@ -79,7 +92,7 @@ export default function SignInForm() {
             type="button"
             onClick={signInWithGoogle}
           >
-            Sign In With Google
+            Google Sign In
           </Button>
         </ButtonsContainer>
       </form>

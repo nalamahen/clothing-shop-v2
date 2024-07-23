@@ -1,7 +1,6 @@
 export interface Category {
-  id: number;
   title: string;
-  imageUrl: string;
+  items: Product[];
 }
 
 export interface FirebaseError {
@@ -18,4 +17,8 @@ export interface Product {
 
 export interface Item extends Product {
   quantity: number;
+}
+
+export interface CategoryMap {
+  [key: string]: Product[];
 }

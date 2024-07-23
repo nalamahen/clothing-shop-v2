@@ -1,18 +1,18 @@
+import { useContext } from "react";
 import { Outlet } from "react-router";
+import { Fragment } from "react/jsx-runtime";
+import shopLogo from "../../assets/crown.svg";
+import CartDropdown from "../../components/cart-dropdown/CartDropdown";
+import CartIcon from "../../components/cart-icon/CartIcon";
+import { CartContext } from "../../context/CartContext";
+import { UserContext } from "../../context/UserContext";
+import { signOutUser } from "../../utils/firebase";
 import {
   LogoContainer,
   NavigationContainer,
   NavLink,
   NavLinks,
 } from "./StyledNavigation";
-import shopLogo from "../../assets/crown.svg";
-import { Fragment } from "react/jsx-runtime";
-import { UserContext } from "../../context/UserContext";
-import { useContext, useState } from "react";
-import { signOutUser } from "../../utils/firebase";
-import CartIcon from "../../components/cart-icon/CartIcon";
-import CartDropdown from "../../components/cart-dropdown/CartDropdown";
-import { CartContext } from "../../context/CartContext";
 
 export default function Navigation() {
   const { currentUser, setCurrentUser } = useContext(UserContext);
@@ -33,9 +33,6 @@ export default function Navigation() {
           <NavLink to="/shop">SHOP</NavLink>
 
           {currentUser ? (
-            // <NavLink as="span" onClick={signOutUser}>
-            //   SIGN OUT
-            // </NavLink>
             <span
               onClick={handleSignOut}
               style={{ cursor: "pointer", padding: "10px 15px" }}

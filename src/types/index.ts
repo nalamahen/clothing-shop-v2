@@ -15,3 +15,7 @@ export interface Product {
   imageUrl: string;
   price: number;
 }
+
+export interface Item extends Product {
+  quantity: number;
+}

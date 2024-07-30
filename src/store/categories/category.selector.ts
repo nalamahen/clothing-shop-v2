@@ -19,3 +19,8 @@ export const selectCategoriesMap = createSelector(
     }, {} as Record<string, Product[]>);
   }
 );
+
+export const selectIsCategoriesLoading = createSelector(
+  [selectCategoryReducer],
+  (categoriesSlice) => categoriesSlice.isLoading
+);

@@ -1,5 +1,4 @@
 import { UserAction } from "../store/user/user.action";
-import { USER_ACTION_TYPES } from "../store/user/user.types";
 
 export interface Category {
   title: string;
@@ -20,10 +19,6 @@ export interface Product {
 
 export interface Item extends Product {
   quantity: number;
-}
-
-export interface CategoryMap {
-  [key: string]: Product[];
 }
 
 export interface User {

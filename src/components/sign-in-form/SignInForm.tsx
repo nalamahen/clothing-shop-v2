@@ -1,12 +1,11 @@
-import { ChangeEvent, FormEvent, useContext, useState } from "react";
-import Button, { BUTTON_TYPE_CLASSES } from "../button/Button";
-import FormInput from "../form-input/FormInput";
-import { ButtonsContainer, SignInContainer } from "./StyledSignInForm";
+import { ChangeEvent, FormEvent, useState } from "react";
 import {
   signInAuthUserWithEmailAndPassword,
   signInWithGooglePopup,
 } from "../../utils/firebase";
-import { UserContext } from "../../context/UserContext";
+import Button, { BUTTON_TYPE_CLASSES } from "../button/Button";
+import FormInput from "../form-input/FormInput";
+import { ButtonsContainer, SignInContainer } from "./StyledSignInForm";
 
 interface FormFields {
   email: string;
@@ -21,7 +20,6 @@ const defaultFormFields: FormFields = {
 export default function SignInForm() {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
-  const { setCurrentUser } = useContext(UserContext);
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -36,16 +34,7 @@ export default function SignInForm() {
     event.preventDefault();
 
     try {
-      const response = await signInAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
-
-      if (response && response.user) {
-        const { uid, email, displayName } = response.user;
-        const userForContext = { uid, email, displayName };
-        setCurrentUser(userForContext);
-      }
+      await signInAuthUserWithEmailAndPassword(email, password);
 
       resetFormFields();
     } catch (error) {

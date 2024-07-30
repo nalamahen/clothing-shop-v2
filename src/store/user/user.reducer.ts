@@ -1,4 +1,4 @@
-import { Action, User } from "../../types";
+import { User } from "../../types";
 import { UserAction } from "./user.action";
 import { USER_ACTION_TYPES } from "./user.types";
 

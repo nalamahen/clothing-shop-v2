@@ -15,9 +15,11 @@ import {
 } from "./StyledNavigation";
 import { RootState } from "../../store/root-reducer";
 import { selectCurrentUser } from "../../store/user/user.selector";
+import { selectIsCartOpen } from "../../store/cart/cart.selector";
 
 export default function Navigation() {
-  const { isCartOpen } = useContext(CartContext);
+  //const { isCartOpen } = useContext(CartContext);
+  const isCartOpen = useSelector(selectIsCartOpen);
   const currentUser = useSelector(selectCurrentUser);
 
   return (

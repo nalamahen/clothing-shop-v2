@@ -1,13 +1,12 @@
-import { ChangeEvent, FormEvent, useContext, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { FirebaseError } from "../../types";
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
 } from "../../utils/firebase";
-import { SignUpContainer } from "./StyledSignUpForm";
-import FormInput from "../form-input/FormInput";
-import { FirebaseError } from "../../types";
 import Button from "../button/Button";
-import { UserContext } from "../../context/UserContext";
+import FormInput from "../form-input/FormInput";
+import { SignUpContainer } from "./StyledSignUpForm";
 
 interface FormFields {
   displayName: string;
@@ -26,7 +25,6 @@ const defaultFormFields: FormFields = {
 export default function SignUpForm() {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
-  const { setCurrentUser } = useContext(UserContext);
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -53,7 +51,6 @@ export default function SignUpForm() {
 
       if (response.user) {
         await createUserDocumentFromAuth(response.user, { displayName });
-        setCurrentUser({ uid: response.user.uid, email, displayName });
         resetFormFields();
       }
     } catch (error: FirebaseError | any) {

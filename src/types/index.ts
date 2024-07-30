@@ -26,7 +26,3 @@ export interface User {
   email: string | null;
   displayName: string | null;
 }
-
-export type Action = {
-  USER_ACTION_TYPES: UserAction;
-};

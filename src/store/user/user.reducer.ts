@@ -1,3 +1,4 @@
+import { AnyAction } from "redux";
 import { User } from "../../types";
 import { UserAction } from "./user.action";
 import { USER_ACTION_TYPES } from "./user.types";
@@ -12,14 +13,14 @@ const INITIAL_STATE: UserState = {
 
 export function userReducer(
   state: UserState = INITIAL_STATE,
-  action: UserAction
+  action: AnyAction //UserAction
 ): UserState {
   const { type, payload } = action;
   switch (type) {
     case USER_ACTION_TYPES.SET_CURRENT_USER:
       return {
         ...state,
-        currentUser: payload,
+        currentUser: payload.currentUser,
       };
     default:
       return state;

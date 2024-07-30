@@ -1,3 +1,4 @@
+import { AnyAction } from "redux";
 import { Item } from "../../types";
 import { CART_ACTION_TYPES } from "./cart.types";
 
@@ -30,7 +31,7 @@ const CART_INITIAL_STATE: CartState = {
 
 export const cartReducer = (
   state: CartState = CART_INITIAL_STATE,
-  action: CartAction
+  action: AnyAction //CartAction
 ): CartState => {
   switch (action.type) {
     case CART_ACTION_TYPES.SET_IS_CART_OPEN:

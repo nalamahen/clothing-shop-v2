@@ -11,6 +11,7 @@ import {
   signOut,
   onAuthStateChanged,
   User as FirebaseUser,
+  User,
 } from "firebase/auth";
 import {
   getFirestore,
@@ -76,8 +77,8 @@ export const addCollectionAndDocuments = async (
   console.log("done");
 };
 
-export const getCategoriesAndDocuments = async () => {
-  const collectionRef = collection(db, "categories");
+export const getCategoriesAndDocuments = async (param: string) => {
+  const collectionRef = collection(db, param);
   const q = query(collectionRef);
 
   const querySnapshot = await getDocs(q);
@@ -114,7 +115,7 @@ export const createUserDocumentFromAuth = async (
     }
   }
 
-  return userDocRef;
+  return userSnapshot;
 };
 
 export const createAuthUserWithEmailAndPassword = async (
@@ -129,8 +130,8 @@ export const createAuthUserWithEmailAndPassword = async (
 export const signInAuthUserWithEmailAndPassword = async (
   email: string,
   password: string
-) => {
-  if (!email || !password) return;
+): Promise<{ user: User | null }> => {
+  if (!email || !password) return { user: null };
 
   return await signInWithEmailAndPassword(auth, email, password);
 };
@@ -140,3 +141,16 @@ export const signOutUser = async () => await signOut(auth);
 export const onAuthStateChangedListener = (
   callback: (user: FirebaseUser | null) => void
 ) => onAuthStateChanged(auth, callback);
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (user) => {
+        unsubscribe();
+        resolve(user);
+      },
+      reject
+    );
+  });
+};

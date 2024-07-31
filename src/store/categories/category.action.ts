@@ -18,15 +18,3 @@ export const fetchCategoriesFailure = (error: string) => ({
   type: CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_FAILURE,
   payload: error,
 });
-
-export const fetchCategoriesAsync = () => {
-  return async (dispatch: any) => {
-    dispatch(fetchCategoriesStart());
-    try {
-      const categories = await getCategoriesAndDocuments();
-      dispatch(fetchCategoriesSuccess(categories as Category[]));
-    } catch (error: any) {
-      dispatch(fetchCategoriesFailure(error.message));
-    }
-  };
-};

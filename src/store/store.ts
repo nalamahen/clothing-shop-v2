@@ -4,7 +4,8 @@ import { rootReducer, RootState } from "./root-reducer";
 import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
 import { persistStore } from "redux-persist";
-import { thunk, ThunkAction, ThunkDispatch } from "redux-thunk";
+import createSagaMiddleware from "redux-saga";
+import { rootSaga } from "./root-saga";
 
 const persistConfig = {
   key: "root",
@@ -12,11 +13,13 @@ const persistConfig = {
   whitelist: ["cart"],
 };
 
+const sagaMiddleware = createSagaMiddleware();
+
 const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
 
 const middlewares = [
   process.env.NODE_ENV !== "production" && logger,
-  thunk,
+  sagaMiddleware,
 ].filter(Boolean);
 
 const composeEnhancer =
@@ -27,12 +30,10 @@ const composeEnhancer =
 
 const composeEnhancers = composeEnhancer(applyMiddleware(...middlewares));
 
+export type AppDispatch = typeof store.dispatch;
+
 export const store = createStore(persistedReducer, undefined, composeEnhancers);
+
+sagaMiddleware.run(rootSaga);
+
 export const persistor = persistStore(store);
-export type AppDispatch = ThunkDispatch<RootState, void, any>;
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  any
->;

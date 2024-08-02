@@ -1,14 +1,12 @@
-import { useContext } from "react";
-import shopingIcon from "../../assets/shopping-bag.svg";
-import { CartContext } from "../../context/CartContext";
-import { CartIconContainer, ItemCount } from "./StyledCartIcon";
 import { useDispatch, useSelector } from "react-redux";
+import shopingIcon from "../../assets/shopping-bag.svg";
+import { setIsCartOpen } from "../../store/cart/cart.reducer";
 import {
   selectCartCount,
   selectIsCartOpen,
 } from "../../store/cart/cart.selector";
-import { setIsCartOpen } from "../../store/cart/cart.action";
 import { AppDispatch } from "../../store/store";
+import { CartIconContainer, ItemCount } from "./StyledCartIcon";
 
 export default function CartIcon() {
   const dispatch: AppDispatch = useDispatch<AppDispatch>();

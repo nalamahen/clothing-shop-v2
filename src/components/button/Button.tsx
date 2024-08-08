@@ -1,4 +1,9 @@
-import { BaseButton, GoogleSignInButton, InvertedButton } from "./StyledButton";
+import {
+  BaseButton,
+  ButtonSpinner,
+  GoogleSignInButton,
+  InvertedButton,
+} from "./StyledButton";
 
 export const BUTTON_TYPE_CLASSES = {
   base: "base",
@@ -22,8 +27,13 @@ const getButton = (buttonType = BUTTON_TYPE_CLASSES.base) =>
 export default function Button({
   children,
   buttonType,
+  isLoading,
   ...otherProps
 }: ButtonProps) {
   const CustomButton = getButton(buttonType);
-  return <CustomButton {...otherProps}>{children}</CustomButton>;
+  return (
+    <CustomButton disabled={isLoading} {...otherProps}>
+      {isLoading ? <ButtonSpinner /> : children}
+    </CustomButton>
+  );
 }

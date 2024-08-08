@@ -10,6 +10,7 @@ import {
   HeaderBlock,
   Total,
 } from "./StyledCheckout";
+import PaymentForm from "../../components/payment-form/PaymentForm";
 
 export default function Checkout() {
   const cartItems = useSelector(selectCartItems);
@@ -37,6 +38,7 @@ export default function Checkout() {
         <CheckoutItem key={item.id} cartItem={item} />
       ))}
       <Total>£{total}</Total>
+      <PaymentForm />
     </CheckoutContainer>
   );
 }

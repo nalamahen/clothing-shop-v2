@@ -1,23 +1,42 @@
-import { Category } from "../../types";
+import { Action } from "redux";
 import { getCategoriesAndDocuments } from "../../utils/firebase";
 import {
-  CATEGORIES_ACTION_TYPES,
-  SetCategoriesAction,
-} from "./category.reducer";
+  ActionWithPayload,
+  createAction,
+  withMatcher,
+} from "../../utils/reducer";
+import { CATEGORIES_ACTION_TYPES, Category } from "./category.types";
 
-export const fetchCategoriesStart = () => ({
-  type: CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_START,
-});
+export type FetchCategoriesStart =
+  Action<CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_START>;
 
-export const fetchCategoriesSuccess = (categories: Category[]) => ({
-  type: CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_SUCCESS,
-  payload: categories,
-});
+export type FetchCategoriesSuccess = ActionWithPayload<
+  CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_SUCCESS,
+  Category[]
+>;
 
-export const fetchCategoriesFailure = (error: string) => ({
-  type: CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_FAILURE,
-  payload: error,
-});
+export type FetchCategoriesFailure = ActionWithPayload<
+  CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_FAILURE,
+  Error
+>;
+
+export const fetchCategoriesStart = withMatcher(
+  (): FetchCategoriesStart =>
+    createAction(CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_START)
+);
+
+export const fetchCategoriesSuccess = withMatcher(
+  (categories: Category[]): FetchCategoriesSuccess =>
+    createAction(CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_SUCCESS, categories)
+);
+
+export const fetchCategoriesFailure = withMatcher(
+  (error: unknown): FetchCategoriesFailure =>
+    createAction(
+      CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_FAILURE,
+      error as Error
+    )
+);
 
 export const fetchCategoriesAsync = () => {
   return async (dispatch: any) => {
@@ -25,8 +44,8 @@ export const fetchCategoriesAsync = () => {
     try {
       const categories = await getCategoriesAndDocuments();
       dispatch(fetchCategoriesSuccess(categories as Category[]));
-    } catch (error: any) {
-      dispatch(fetchCategoriesFailure(error.message));
+    } catch (error) {
+      dispatch(fetchCategoriesFailure(error));
     }
   };
 };

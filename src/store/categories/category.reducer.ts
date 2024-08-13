@@ -2,7 +2,7 @@ import { AnyAction } from "redux";
 import { Category } from "../../types";
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { DocumentData } from "firebase/firestore";
+//import { DocumentData } from "firebase/firestore";
 
 // Define the action types
 export enum CATEGORIES_ACTION_TYPES {
@@ -11,32 +11,23 @@ export enum CATEGORIES_ACTION_TYPES {
   FETCH_CATEGORIES_FAILURE = "category/FETCH_CATEGORIES_FAILURE",
 }
 
-// Define the action interface
-export interface SetCategoriesAction {
-  type: CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_SUCCESS;
-  payload: CategoriesState;
-}
-
-// Define the state
 export interface CategoriesState {
-  categories: DocumentData[];
+  categories: Category[];
+  isLoading: boolean;
+  error?: Error | null;
 }
-
-// Union type for all possible actions
-export type CategoriesAction = SetCategoriesAction;
 
 export const CATEGORIES_INITIAL_STATE: CategoriesState = {
   categories: [],
+  isLoading: false,
+  error: null,
 };
 
 export const categoriesSlice = createSlice({
   name: "categories",
   initialState: CATEGORIES_INITIAL_STATE,
   reducers: {
-    setCategories(
-      state: CategoriesState,
-      action: PayloadAction<DocumentData[]>
-    ) {
+    setCategories(state: CategoriesState, action: AnyAction) {
       state.categories = action.payload;
     },
   },

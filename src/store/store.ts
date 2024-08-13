@@ -1,9 +1,11 @@
 //import { applyMiddleware, compose, createStore } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
-import { rootReducer, RootState } from "./root-reducer";
+import { rootReducer } from "./root-reducer";
 
 import { logger } from "redux-logger";
 import { ThunkDispatch } from "redux-thunk";
+
+export type RootState = ReturnType<typeof rootReducer>;
 
 const middlewares = [process.env.NODE_ENV === "development" && logger].filter(
   Boolean

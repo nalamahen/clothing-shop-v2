@@ -1,9 +1,15 @@
-import { UserAction } from "../store/user/user.action";
+export type CategoryItem = {
+  id: number;
+  name: string;
+  imageUrl: string;
+  price: number;
+};
 
-export interface Category {
+export type Category = {
   title: string;
-  items: Product[];
-}
+  imageUrl: string;
+  items: CategoryItem[];
+};
 
 export interface FirebaseError {
   code: string;

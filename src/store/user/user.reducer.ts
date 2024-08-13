@@ -1,18 +1,16 @@
 import { AnyAction, createSlice } from "@reduxjs/toolkit";
-import { User } from "../../types";
+import { UserData } from "../../utils/firebase";
 
-export interface UserState {
-  currentUser: User | null;
-  uid: string;
-  email: string;
-  displayName: string;
-}
+export type UserState = {
+  currentUser: UserData | null;
+  isLoaded: boolean;
+  error: Error | null;
+};
 
 const INITIAL_STATE: UserState = {
   currentUser: null,
-  uid: "",
-  email: "",
-  displayName: "",
+  isLoaded: false,
+  error: null,
 };
 
 export const userSlice = createSlice({

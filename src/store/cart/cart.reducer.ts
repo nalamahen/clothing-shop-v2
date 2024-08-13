@@ -1,27 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Item, Product } from "../../types";
+import { CategoryItem, Item, Product } from "../../types";
 
-// Define the action interfaces
-// export interface SetIsCartOpenAction {
-//   type: typeof CART_ACTION_TYPES.SET_IS_CART_OPEN;
-//   payload: boolean;
-// }
+export type CartItem = CategoryItem & { quantity: number };
 
-// export interface SetCartItemsAction {
-//   type: typeof CART_ACTION_TYPES.SET_CART_ITEMS;
-//   payload: {
-//     cartItems: Item[];
-//   };
-// }
-
-// Define the state
-export interface CartState {
+export type CartState = {
   isCartOpen: boolean;
-  cartItems: Item[];
-}
-
-// Define the action types
-//export type CartAction = SetIsCartOpenAction | SetCartItemsAction;
+  cartItems: CartItem[];
+};
 
 const CART_INITIAL_STATE: CartState = {
   isCartOpen: false,
